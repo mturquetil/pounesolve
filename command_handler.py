@@ -1,8 +1,10 @@
 from exploits.overwrite import Overwrite
+from exploits.shellcode import Shellcode
+
 from logger import Logger
 
 class CommandHandler:
-    exploits = [Overwrite]
+    exploits = [Overwrite, Shellcode]
 
     def __init__(self, parser, command):
         for exploit in CommandHandler.exploits:
