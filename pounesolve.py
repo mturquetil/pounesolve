@@ -12,6 +12,7 @@ class PouneSolve:
 
 Available commands:
   overwrite     Try instruction pointer overwrite to access specific part of the binary
+  shellcode     Try to insert executable code in the binary and execute it
 
 ''')
         parser.add_argument('command', nargs='?', help='Subcommand to run')
