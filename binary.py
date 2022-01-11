@@ -37,20 +37,28 @@ class Binary:
         process.sendline(pwn.cyclic(10, n=4))
         process.wait()
 
+        overflow_offset = -1
+
         try:
             core = process.corefile
 
-            overflow_offset = pwn.cyclic_find(getattr(core, self.sp_register).to_bytes(self.register_size, byteorder='little'), n=4)
-
-            # overwrite may be on program counter and not stack pointer
-            if overflow_offset == -1:
-                overflow_offset = pwn.cyclic_find(getattr(core, self.pc_register).to_bytes(self.register_size, byteorder='little'), n=4)
+            registers_value = [
+                getattr(core, self.sp_register).to_bytes(self.register_size, byteorder='little'),
+                getattr(core, self.pc_register).to_bytes(self.register_size, byteorder='little'),
+                core.read(getattr(core, self.sp_register), self.register_size),
+                core.read(getattr(core, self.pc_register), self.register_size)
+            ]
 
             os.remove(core.path)
+
+            for value in registers_value:
+                overflow_offset = pwn.cyclic_find(value)
+
+                if overflow_offset != -1:
+                    break
 
             return overflow_offset
 
         except Exception as e:
-            print(e)
             os.remove(core.path)
     # }}}
