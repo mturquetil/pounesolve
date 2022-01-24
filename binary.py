@@ -1,4 +1,6 @@
-import pwn, os, utils
+import pwn
+import os
+import utils
 
 class Binary:
     def __init__(self, path):
@@ -9,10 +11,8 @@ class Binary:
 
         self.ELF = pwn.ELF(self.path)
 
-        # setup architecture
         self.architecture_setup()
 
-    # architecture_setup {{{
     def architecture_setup(self):
         if self.ELF.arch == 'amd64':
             self.sp_register = 'rsp'
@@ -28,13 +28,11 @@ class Binary:
             self.packing = 'p32'
         else:
             Logger.error('Architecture unrecognized')
-            exit(1)
-    # }}}
+            sys.exit(1)
 
-    # get_overflow_offset {{{
     def get_overflow_offset(self):
         process = pwn.process(self.path)
-        process.sendline(pwn.cyclic(10, n=4))
+        process.sendline(pwn.cyclic(400, n=4))
         process.wait()
 
         overflow_offset = -1
@@ -61,4 +59,3 @@ class Binary:
 
         except Exception as e:
             os.remove(core.path)
-    # }}}

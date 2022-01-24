@@ -1,3 +1,5 @@
+import sys
+
 from exploits.overwrite import Overwrite
 from exploits.shellcode import Shellcode
 
@@ -10,9 +12,9 @@ class CommandHandler:
         for exploit in CommandHandler.exploits:
             if exploit.command == command:
                 exploit()
-                exit(0)
+                sys.exit(0)
 
         Logger.error('Unrecognized command\n')
         parser.print_help()
-        exit(1)
+        sys.exit(1)
 
