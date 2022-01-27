@@ -1,5 +1,6 @@
-![logo](/home/shinji/school/503/pounesolve/assets/pounesolve.png)
-
+<div align="center">
+	<img alt="Logo" src="assets/pounesolve.png" />
+</div>
 <div align="center">
 	<img alt="Version" src="https://img.shields.io/badge/version-1.0-blue" />
 	<img alt="Binary support" src="https://img.shields.io/badge/binary%20support-i386%2Famd64-success" />
